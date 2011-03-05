@@ -1,6 +1,6 @@
 /*	
 
-	jQuery pub/sub plugin by Peter Higgins (dante@dojotoolkit.org)
+	Zepto pub/sub plugin by Martin Juhasz, proted from Peter Higgins jQuery Zepto pub/sub plugin (dante@dojotoolkit.org)
 
 	Loosely based on Dojo publish/subscribe API, limited in scope. Rewritten blindly.
 
@@ -9,12 +9,12 @@
 
 */	
 
-;(function(d){
+(function ($) {
 
 	// the topic/subscription hash
 	var cache = {};
 
-	d.publish = function(/* String */topic, /* Array? */args){
+	$.publish = function(/* String */topic, /* Array? */args){
 		// summary: 
 		//		Publish some data on a named topic.
 		// topic: String
@@ -28,12 +28,12 @@
 		//		with a function signature like: function(a,b,c){ ... }
 		//
 		//	|		$.publish("/some/topic", ["a","b","c"]);
-		cache[topic] && d.each(cache[topic], function(){
-			this.apply(d, args || []);
+		cache[topic].forEach(function(property){
+			property.apply($, args || []);
 		});
 	};
 
-	d.subscribe = function(/* String */topic, /* Function */callback){
+	$.subscribe = function(/* String */topic, /* Function */callback){
 		// summary:
 		//		Register a callback on a named topic.
 		// topic: String
@@ -56,7 +56,7 @@
 		return [topic, callback]; // Array
 	};
 
-	d.unsubscribe = function(/* Array */handle){
+	$.unsubscribe = function(/* Array */handle){
 		// summary:
 		//		Disconnect a subscribed function for a topic.
 		// handle: Array
@@ -66,12 +66,12 @@
 		//	|	$.unsubscribe(handle);
 		
 		var t = handle[0];
-		cache[t] && d.each(cache[t], function(idx){
+		cache[t] && $.each(cache[t], function(idx){
 			if(this == handle[1]){
 				cache[t].splice(idx, 1);
 			}
 		});
 	};
 
-})(jQuery);
+})(window.Zepto);
 

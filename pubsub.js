@@ -28,9 +28,11 @@
 		//		with a function signature like: function(a,b,c){ ... }
 		//
 		//	|		$.publish("/some/topic", ["a","b","c"]);
-		cache[topic].forEach(function(property){
-			property.apply($, args || []);
-		});
+		if(typeof cache[topic] === 'object') {	
+			cache[topic].forEach(function(property){
+				property.apply($, args || []);
+			});
+		}
 	};
 
 	$.subscribe = function(/* String */topic, /* Function */callback){
